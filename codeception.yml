@@ -1,9 +1,9 @@
 # global codeception file to run tests from all apps
 include:
     - common
-    - frontend
-    - backend
+    - api
+    - admin
 paths:
-    output: console/runtime/output
+    log: console/runtime/logs
 settings:
     colors: true

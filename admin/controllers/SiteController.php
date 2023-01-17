@@ -1,8 +1,9 @@
 <?php
-
 namespace admin\controllers;
 
 use Yii;
+use yii\base\InvalidParamException;
+use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -52,7 +53,7 @@ class SiteController extends Controller
     {
         return [
             'error' => [
-                'class' => 'yii\web\ErrorAction'
+                'class' => 'yii\web\ErrorAction',
             ],
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
@@ -64,26 +65,25 @@ class SiteController extends Controller
     /**
      * Displays homepage.
      *
-     * @return string
+     * @return mixed
      */
     public function actionIndex()
     {
-        //var_dump(Yii::$app->user->identity);
+//        var_dump(Yii::$app->user->identity);
         return $this->render('index');
     }
 
     /**
-     * Login action.
+     * Logs in a user.
      *
      * @return mixed
      */
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
-            //var_dump(Yii::$app->user->isGuest);
+//            var_dump(Yii::$app->user->isGuest);
             return $this->goHome();
         }
-
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
@@ -96,9 +96,8 @@ class SiteController extends Controller
         }
     }
 
-
     /**
-     * Logout action.
+     * Logs out the current user.
      *
      * @return mixed
      */
@@ -108,6 +107,9 @@ class SiteController extends Controller
 
         return $this->goHome();
     }
+
+
+
     /**
      * Signs user up.
      *
@@ -128,10 +130,12 @@ class SiteController extends Controller
 //            'model' => $model,
 //        ]);
 //    }
+
     public function actionInfo()
     {
         return $this->render('info', [
 
         ]);
     }
+
 }

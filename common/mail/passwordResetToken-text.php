@@ -1,12 +1,21 @@
 <?php
+use common\components\UserUrlManager;
 
-/** @var yii\web\View $this */
-/** @var common\models\User $user */
-
-$resetLink = Yii::$app->urlManager->createAbsoluteUrl(['site/reset-password', 'token' => $user->password_reset_token]);
+$domain_name = Yii::$app->request->serverName;
+$domain = UserUrlManager::getDomainUrl();
+if( $user ) {
+    $user_name = $user->username ;
+    $resetLink = $domain . '/?reset_password_token=' . $user->password_reset_token;
+}
 ?>
-Hello <?= $user->username ?>,
+Здравствуйте, <?= $user_name ?>!
 
-Follow the link below to reset your password:
+Вы получили это письмо, так как нам поступил запрос на 
+восстановление Вашего пароля на сайте <?= $domain_name ?>.
 
-<?= $resetLink ?>
+Для обновления пароля, пожалуйста, перейдите по 
+ссылке: <?= $resetLink ?>
+
+Если Вы не обращались к процедуре восстановления
+пароля, просто проигнорируйте данное письмо. 
+Ваш пароль не будет изменен.

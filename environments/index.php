@@ -10,7 +10,7 @@
  *     'environment name' => [
  *         'path' => 'directory storing the local files',
  *         'skipFiles'  => [
- *             // list of files that should only be copied once and skipped if they already exist
+ *             // list of files that should only copied once and skipped if they already exist
  *         ],
  *         'setWritable' => [
  *             // list of directories that should be set writable
@@ -29,40 +29,50 @@
  * ```
  */
 return [
-    'Development' => [
-        'path' => 'dev',
+    'Peppers Development' => [
+        'path' => 'peppers_dev',
         'setWritable' => [
-            'backend/runtime',
-            'backend/web/assets',
-            'console/runtime',
-            'frontend/runtime',
-            'frontend/web/assets',
+            'admin/runtime',
+            'api/runtime',
+			'htdocs/uploads',
         ],
         'setExecutable' => [
             'yii',
             'yii_test',
         ],
         'setCookieValidationKey' => [
-            'backend/config/main-local.php',
-            'common/config/codeception-local.php',
-            'frontend/config/main-local.php',
+            'admin/config/main-local.php',
+            'api/config/main-local.php',
         ],
     ],
-    'Production' => [
-        'path' => 'prod',
+	'Stage Development' => [
+        'path' => 'stage_dev',
         'setWritable' => [
-            'backend/runtime',
-            'backend/web/assets',
-            'console/runtime',
-            'frontend/runtime',
-            'frontend/web/assets',
+            'admin/runtime',
+            'api/runtime',
+			'htdocs/uploads',
         ],
         'setExecutable' => [
             'yii',
         ],
         'setCookieValidationKey' => [
-            'backend/config/main-local.php',
-            'frontend/config/main-local.php',
+            'admin/config/main-local.php',
+            'api/config/main-local.php',
+        ],
+    ],
+    'Stage Production' => [
+        'path' => 'stage_prod',
+        'setWritable' => [
+            'admin/runtime',
+            'api/runtime',
+			'htdocs/uploads',
+        ],
+        'setExecutable' => [
+            'yii',
+        ],
+        'setCookieValidationKey' => [
+            'admin/config/main-local.php',
+            'api/config/main-local.php',
         ],
     ],
 ];

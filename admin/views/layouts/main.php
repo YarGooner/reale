@@ -1,14 +1,15 @@
 <?php
 
-/** @var \yii\web\View $this */
-/** @var string $content */
+/* @var $this \yii\web\View */
+/* @var $content string */
 
-use backend\assets\AppAsset;
+use admin\assets\AppAsset;
+use yii\helpers\Html;
+use yii\bootstrap\Nav;
+use yii\bootstrap\NavBar;
+use yii\widgets\Breadcrumbs;
 use common\widgets\Alert;
-use yii\bootstrap5\Breadcrumbs;
-use yii\bootstrap5\Html;
-use yii\bootstrap5\Nav;
-use yii\bootstrap5\NavBar;
+use yii\widgets\Menu;
 
 AppAsset::register($this);
 ?>
@@ -18,21 +19,22 @@ AppAsset::register($this);
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <?php $this->registerCsrfMetaTags() ?>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <?= Html::csrfMetaTags() ?>
     <title><?= Yii::$app->name ?> | Панель администратора</title>
     <?php $this->head() ?>
 </head>
 <body>
 <?php $this->beginBody() ?>
 
-    <div class="wrap">
+<div class="wrap">
     <?php
     NavBar::begin([
         'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-default navbar-fixed-top',
+//            'id' => 'main-menu',
         ],
     ]);
 
@@ -72,14 +74,15 @@ AppAsset::register($this);
     NavBar::end();
 
     ?>
-        <div class="container">
-            <?= Breadcrumbs::widget([
-                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-            ]) ?>
-            <?= Alert::widget() ?>
-            <?= $content ?>
-        </div>
+
+    <div class="container">
+        <?= Breadcrumbs::widget([
+            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+        ]) ?>
+        <?= Alert::widget() ?>
+        <?= $content ?>
     </div>
+</div>
 
 
 
@@ -87,3 +90,4 @@ AppAsset::register($this);
 </body>
 </html>
 <?php $this->endPage() ?>
+

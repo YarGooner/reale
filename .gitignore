@@ -22,6 +22,7 @@ Thumbs.db
 
 # composer itself is not needed
 composer.phar
+c3.php
 
 # Mac DS_Store Files
 .DS_Store
@@ -34,10 +35,9 @@ phpunit.phar
 # vagrant runtime
 /.vagrant
 
-# ignore generated files
-/frontend/web/index.php
-/frontend/web/index-test.php
-/frontend/web/robots.txt
-/backend/web/index.php
-/backend/web/index-test.php
-/backend/web/robots.txt
+/common/modules/auth/Keys.php
+
+# /htdocs/api-test
+htdocs/api/index.php
+htdocs/admin/index.php
+node_modules/

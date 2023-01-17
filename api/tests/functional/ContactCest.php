@@ -1,8 +1,7 @@
 <?php
+namespace api\tests\functional;
 
-namespace frontend\tests\functional;
-
-use frontend\tests\FunctionalTester;
+use api\tests\FunctionalTester;
 
 /* @var $scenario \Codeception\Scenario */
 
@@ -10,7 +9,7 @@ class ContactCest
 {
     public function _before(FunctionalTester $I)
     {
-        $I->amOnRoute('site/contact');
+        $I->amOnPage(['site/contact']);
     }
 
     public function checkContact(FunctionalTester $I)

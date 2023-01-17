@@ -1,6 +1,6 @@
 <?php
 return [
-    'id' => 'app-frontend-tests',
+    'id' => 'app-api-tests',
     'components' => [
         'assetManager' => [
             'basePath' => __DIR__ . '/../web/assets',
@@ -8,11 +8,5 @@ return [
         'urlManager' => [
             'showScriptName' => true,
         ],
-        'request' => [
-            'cookieValidationKey' => 'test',
-        ],
-        'mailer' => [
-            'messageClass' => \yii\symfonymailer\Message::class
-        ]
     ],
 ];

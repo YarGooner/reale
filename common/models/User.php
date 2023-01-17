@@ -2,50 +2,49 @@
 
 namespace common\models;
 
+use common\components\Emailer;
 use Yii;
-use yii\base\NotSupportedException;
-use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 use yii\web\IdentityInterface;
 
 /**
- * User model
+ * This is the model class for table "user".
  *
- * @property integer $id
+ * @property int $id
+ *
  * @property string $username
+ *
  * @property string $password_hash
  * @property string $password_reset_token
- * @property string $verification_token
- * @property string $email
+ * @property string $auth_source
  * @property string $auth_key
- * @property integer $status
- * @property integer $created_at
- * @property integer $updated_at
- * @property string $password write-only password
+ *
+ * @property int $last_login_at
+ * @property int $created_at
+ * @property int $updated_at
+ *
+ * @property int $status
+ *
+ * @property UserExt $userExt
  */
 class User extends ActiveRecord implements IdentityInterface
 {
-    const STATUS_DELETED = 0;
-    const STATUS_INACTIVE = 9;
-    const STATUS_ACTIVE = 10;
 
+    const SCENARIO_SIGNUP = 1;
+    const SCENARIO_SIGNUP_SOCIAL = 2;
+    const SCENARIO_LOGIN = 3;
+    const SCENARIO_UPDATE = 4;
+
+    public $email;
+    public $password;
 
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return '{{%user}}';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            TimestampBehavior::class,
-        ];
+        return 'user';
     }
 
     /**
@@ -54,86 +53,59 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            ['status', 'default', 'value' => self::STATUS_INACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
+//            [['created_at', 'updated_at'], 'required'],
+
+            [['email', 'password'], 'required', 'on' => self::SCENARIO_SIGNUP],
+            [['email', 'password'], 'required', 'on' => self::SCENARIO_LOGIN],
+
+            [['email'], 'email'],
+            [['password'], 'string', 'min' => 6, 'max' => 20],
+
+            [['last_login_at', 'created_at', 'updated_at', 'status'], 'integer'],
+            [['username', 'auth_source', 'auth_key', 'password_reset_token'], 'string', 'max' => 255],
+            [['password_hash'], 'string', 'max' => 60],
+        ];
+    }
+
+    public function scenarios()
+    {
+        return [
+            self::SCENARIO_SIGNUP => ['email', 'password'],
+            self::SCENARIO_SIGNUP_SOCIAL => ['email', 'password', 'username'],
+            self::SCENARIO_LOGIN => ['email', 'password'],
+            self::SCENARIO_UPDATE => ['email', 'password', 'username'],
+        ];
+    }
+
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => Yii::t('app', 'ID'),
+            'username' => Yii::t('app', 'Username'),
+            'password_hash' => Yii::t('app', 'Password Hash'),
+            'auth_source' => Yii::t('app', 'Auth Source'),
+            'auth_key' => Yii::t('app', 'Auth Key'),
+            'password_reset_token' => Yii::t('app', 'Password Reset Token'),
+            'last_login_at' => Yii::t('app', 'Last Login At'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'updated_at' => Yii::t('app', 'Updated At'),
+            'status' => Yii::t('app', 'Status'),
         ];
     }
 
     /**
-     * {@inheritdoc}
+     * @return \yii\db\ActiveQuery
      */
-    public static function findIdentity($id)
+    public function getUserExt()
     {
-        return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+        return $this->hasOne(UserExt::className(), ['user_id' => 'id']);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function findIdentityByAccessToken($token, $type = null)
-    {
-        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
-    }
-
-    /**
-     * Finds user by username
-     *
-     * @param string $username
-     * @return static|null
-     */
-    public static function findByUsername($username)
-    {
-        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
-    }
-
-    /**
-     * Finds user by password reset token
-     *
-     * @param string $token password reset token
-     * @return static|null
-     */
-    public static function findByPasswordResetToken($token)
-    {
-        if (!static::isPasswordResetTokenValid($token)) {
-            return null;
-        }
-
-        return static::findOne([
-            'password_reset_token' => $token,
-            'status' => self::STATUS_ACTIVE,
-        ]);
-    }
-
-    /**
-     * Finds user by verification email token
-     *
-     * @param string $token verify email token
-     * @return static|null
-     */
-    public static function findByVerificationToken($token) {
-        return static::findOne([
-            'verification_token' => $token,
-            'status' => self::STATUS_INACTIVE
-        ]);
-    }
-
-    /**
-     * Finds out if password reset token is valid
-     *
-     * @param string $token password reset token
-     * @return bool
-     */
-    public static function isPasswordResetTokenValid($token)
-    {
-        if (empty($token)) {
-            return false;
-        }
-
-        $timestamp = (int) substr($token, strrpos($token, '_') + 1);
-        $expire = Yii::$app->params['user.passwordResetTokenExpire'];
-        return $timestamp + $expire >= time();
-    }
-
+    // ==========================================
     /**
      * {@inheritdoc}
      */
@@ -158,22 +130,37 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->getAuthKey() === $authKey;
     }
 
+    //
+    public static function findIdentity( $id, $with_ext = false )
+    {
+//        if( $with_ext ){
+        return self::find()->where(['id' => $id])->with('userExt')->one();
+//        }
+//        return self::findOne(['id' => $id]);
+
+    }
+
+    public static function findUserByAccessToken($token)
+    {
+        return self::findOne(['auth_key' => $token]);
+    }
+
     /**
-     * Validates password
-     *
-     * @param string $password password to validate
-     * @return bool if password provided is valid for current user
+     * {@inheritdoc}
      */
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+        if($token) {
+            $user = self::find()->where(['auth_key' => $token])->one();
+            return $user;
+        }
+    }
+
     public function validatePassword($password)
     {
         return Yii::$app->security->validatePassword($password, $this->password_hash);
     }
 
-    /**
-     * Generates password hash from password and sets it to the model
-     *
-     * @param string $password
-     */
     public function setPassword($password)
     {
         $this->password_hash = Yii::$app->security->generatePasswordHash($password);
@@ -187,27 +174,150 @@ class User extends ActiveRecord implements IdentityInterface
         $this->auth_key = Yii::$app->security->generateRandomString();
     }
 
-    /**
-     * Generates new password reset token
-     */
+    //
     public function generatePasswordResetToken()
     {
         $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
     }
+    // -----------------------
 
-    /**
-     * Generates new token for email verification
-     */
-    public function generateEmailVerificationToken()
+    //
+    static public function getUserByEmail($email)
     {
-        $this->verification_token = Yii::$app->security->generateRandomString() . '_' . time();
+        if( !$email ) return null;
+        $userExt = UserExt::getByEmail($email);
+        if( !$userExt ) return null;
+        $user = self::getById( $userExt->user_id );
+        return $user;
     }
 
-    /**
-     * Removes password reset token
-     */
-    public function removePasswordResetToken()
+    //
+    static public function getUserByUsername( $username )
     {
-        $this->password_reset_token = null;
+        if( !$username ) return;
+        $user = User::find()->where(['username' => $username])->one();
+        return $user;
     }
+
+    //
+    static public function getUserByUnconfirmedEmail($email)
+    {
+        if( !$email ) return null;
+        $emailUser = Email::find()->where(['value' => $email, 'is_verified' => '0'])->one();
+        if( !$emailUser ) return null;
+        $user_id = $emailUser->user_id;
+        $user = User::find()->where(['id' => $user_id])->one();
+        return $user;
+    }
+
+    //
+    static public function getById( $user_id = null ){
+        if( $user_id === true ) $user_id = Yii::$app->user->id;
+        return self::find()->where(['id'=>$user_id])->with('userExt')->one();
+    }
+
+
+    // Создание нового пользователя
+    static public function createUser(  $params = null, $scenario = null ){
+
+        if( !$params ) return ['error' => ['createUser' => Yii::t('app', 'Data required' )]];
+
+        $user = new self();
+        $user->scenario = $scenario ? $scenario : self::SCENARIO_SIGNUP;
+
+//        $user->username = explode( '@', $email )[0];
+//        return ['error' => ['createUser' => $params ]]; // !!!
+        $user->load( $params, '' );
+        if( isset($params['password']) ) $user->setPassword($params['password']);
+        $user->created_at = $user->updated_at = time();
+        $user->auth_key = \Yii::$app->security->generateRandomString();
+        self::checkEmailIsChanged( $user, $params );
+        $user->last_login_at = time();
+
+//        return $this->returnError($user); // !!!
+
+        if($user->save()){
+
+            $user->refresh();
+
+            $userExt = new UserExt();
+            $params['user_id'] = $user->id;
+            $userExt->load( $params, '' );
+
+            if( !$userExt->save() ){
+                $user->delete();
+                return ['error' => ['createUser' => $userExt->errors ]];
+            }
+
+            // Send a Letter
+            self::sendConfirmationEmail( $userExt->unconfirmed_email, 'Letter Subject: Signup', ArrayHelper::getValue( Yii::$app->params, 'email_on.signup'), $user );
+            /*
+            $template = ArrayHelper::getValue( Yii::$app->params, 'email_on.signup');
+            if( $template ) {
+                Emailer::sendMail( $userExt->unconfirmed_email, Yii::t('app', 'Letter Subject: Signup'), $template, $user );
+            }
+            */
+
+            return $user;
+
+        } else {
+            return ['error' => ['createUser' => $user->errors ]];
+        }
+
+    }
+
+
+    //
+    public static function updateData( $user, $params ){
+        $user->scenario = self::SCENARIO_UPDATE;
+
+//        $user->username = explode( '@', $email )[0];
+//        return ['error' => ['createUser' => $params ]]; // !!!
+        $user->load( $params, '' );
+        self::checkEmailIsChanged( $user, $params );
+
+        if($user->save()){
+
+            $user->refresh();
+
+            $userExt = $user->userExt;
+            $userExt->load( $params, '' );
+
+            if( !$userExt->save() ){
+                $user->delete();
+                return ['error' => ['updateData' => $userExt->errors ]];
+            }
+
+            return $user;
+
+        } else {
+            return ['error' => ['updateData' => $user->errors ]];
+        }
+    }
+
+
+    //
+    public static function checkEmailIsChanged( &$user, &$params )
+    {
+        if( isset($params['email']) ) {
+            $user->auth_source = 'e-mail';
+            $params['unconfirmed_email'] = $params['email'];
+            unset( $params['email']);
+        }
+    }
+
+
+    //
+    static public function sendConfirmationEmail( $email = null, $subject = null, $template_name = null, $user = null ){
+        if( !$email || !$subject || !$user || !$template_name ) return;
+        $user->userExt->email_confirm_token = \Yii::$app->security->generateRandomString();;
+        if( $user->userExt->save() ) {
+            if( Emailer::sendMail( $email, Yii::t('app', $subject), $template_name, $user) ){
+                return true;
+            }
+        }
+        return false;
+
+    }
+
 }
