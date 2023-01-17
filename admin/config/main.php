@@ -1,5 +1,6 @@
 <?php
 
+use common\components\Utils;
 use yii\helpers\Url;
 use kartik\datecontrol\Module;
 use yii\web\Request;
@@ -18,29 +19,29 @@ $params = array_merge(
 return [
     'id' => 'app-admin',
     'name' => 'PROJECT NAME',
-    'homeUrl' => $baseUrl.$module,
+    'homeUrl' => $baseUrl . $module,
     'basePath' => dirname(__DIR__),
-	//    'defaultRoute' => '/site/index',
+    //    'defaultRoute' => '/site/index',
     'sourceLanguage' => 'en-US',
     'language' => 'ru-RU',
-	
+
     'controllerNamespace' => 'admin\controllers',
-    
-	'aliases' => [
+
+    'aliases' => [
         '@images' => UserUrlManager::UPLOADS,
     ],
-	
-	'bootstrap' => ['log'],
-	  
-	'controllerMap' => [
+
+    'bootstrap' => ['log'],
+
+    'controllerMap' => [
         'elfinder' => [
             'class' => 'mihaildev\elfinder\PathController',
             'access' => ['@'],
             'root' => [
-                'baseUrl'=> '',
-                'basePath'=> '@uploads',
-                'path' => '',
-                'name' => 'Global'
+                'baseUrl' => '',
+                'basePath' => '@uploads',
+                'path' => '/htdocs/uploads.',
+                'name' => 'uploads'
             ],
         ],
         'assignment' => [
@@ -48,9 +49,9 @@ return [
             'userIdentityClass' => 'common\modules\auth\models\User',
         ],
     ],
-	
+
     'modules' => [
-        'datecontrol' =>  [
+        'datecontrol' => [
             'class' => '\kartik\datecontrol\Module',
             'displaySettings' => [
                 Module::FORMAT_DATE => 'dd-MM-yyyy',
@@ -87,9 +88,10 @@ return [
         'request' => [
             'csrfParam' => '_csrf-admin',
             'enableCsrfValidation' => false,
-//            'baseUrl' => '/admin',
+            'baseUrl' => '/admin',
+            'scriptUrl' => '/admin/index.php',
             'class' => 'common\components\Request',
-            'web'=> $module,
+            'web' => $module,
 //            'web'=> Utils::$ROOT_DOMAIN.$module,
 
             'adminUrl' => $module,
@@ -111,7 +113,7 @@ return [
                     'basePath' => '@app/messages',
                     //'sourceLanguage' => 'en-US',
                     'fileMap' => [
-                        'app'       => 'app.php',
+                        'app' => 'app.php',
                         'app/error' => 'error.php',
                     ],
                 ],
@@ -128,9 +130,9 @@ return [
         ],
 
         // 'consoleRunner' => [
-            // 'class' => 'admin\components\consoleRunner\ConsoleRunner',
-            // 'file' => '@root/yii', // or an absolute path to console file
-            // 'phpBinaryPath' => PHP_BINDIR . '/php',
+        // 'class' => 'admin\components\consoleRunner\ConsoleRunner',
+        // 'file' => '@root/yii', // or an absolute path to console file
+        // 'phpBinaryPath' => PHP_BINDIR . '/php',
         // ],
 
         'mailer' => [

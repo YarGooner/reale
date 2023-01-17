@@ -42,6 +42,8 @@ AppAsset::register($this);
 
     if (!Yii::$app->user->isGuest) {
         $menuItems = [
+            ['label' => 'Квартиры', 'url' => ['/apartment']],
+            ['label' => 'Комнаты', 'url' => ['/room']],
             ['label' => 'Пользователи', 'url' => ['/user']],
             [ 'label' => 'Контент', 'items' => [
                 ['label' => 'Тексты', 'url' => ['/text']],
