@@ -2,17 +2,17 @@
 
 namespace admin\controllers;
 
-use admin\models\Text;
-use admin\models\TextSearch;
 use Yii;
-use yii\filters\VerbFilter;
+use admin\models\Gallery;
+use admin\models\GallerySearch;
+use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii2mod\editable\EditableAction;
+use yii\filters\VerbFilter;
 
 /**
- * TextController implements the CRUD actions for Text model.
+ * GalleryController implements the CRUD actions for Gallery model.
  */
-class TextController extends AdminController
+class GalleryController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -30,12 +30,12 @@ class TextController extends AdminController
     }
 
     /**
-     * Lists all Text models.
+     * Lists all Gallery models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new TextSearch();
+        $searchModel = new GallerySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class TextController extends AdminController
     }
 
     /**
-     * Displays a single Text model.
+     * Displays a single Gallery model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -58,13 +58,13 @@ class TextController extends AdminController
     }
 
     /**
-     * Creates a new Text model.
+     * Creates a new Gallery model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Text();
+        $model = new Gallery();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -76,7 +76,7 @@ class TextController extends AdminController
     }
 
     /**
-     * Updates an existing Text model.
+     * Updates an existing Gallery model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -96,7 +96,7 @@ class TextController extends AdminController
     }
 
     /**
-     * Deletes an existing Text model.
+     * Deletes an existing Gallery model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -110,33 +110,18 @@ class TextController extends AdminController
     }
 
     /**
-     * Finds the Text model based on its primary key value.
+     * Finds the Gallery model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Text the loaded model
+     * @return Gallery the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Text::findOne($id)) !== null) {
+        if (($model = Gallery::findOne($id)) !== null) {
             return $model;
         }
 
-        throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
-    }
-
-    public function actions()
-    {
-        return [
-            'change-key' => [
-                'class' => EditableAction::class,
-                'modelClass' => Text::class,
-            ],
-            'change-value' => [
-                'class' => EditableAction::class,
-                'modelClass' => Text::class,
-            ],
-
-        ];
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

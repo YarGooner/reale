@@ -1,6 +1,6 @@
 <?php
 
-namespace common\models;
+namespace admin\models;
 
 use Yii;
 use yii\db\ActiveRecord;
@@ -29,7 +29,7 @@ class Text extends ActiveRecord
     public function rules()
     {
         return [
-            [['key', 'value'], 'required'],
+            [['key', 'value', 'text'], 'required'],
             [['value', 'group_test'], 'string'],
             [['key'], 'string', 'max' => 255],
         ];
@@ -44,6 +44,18 @@ class Text extends ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'key' => Yii::t('app', 'Key'),
             'value' => Yii::t('app', 'Value'),
+        ];
+    }
+
+    public function fields()
+    {
+        return [
+            'key',
+            'value',
+            'group_test',
+            'text',
+            'image',
+            'comment',
         ];
     }
 }

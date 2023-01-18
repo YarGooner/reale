@@ -41,13 +41,22 @@ AppAsset::register($this);
     $menuItems = [];
 
     if (!Yii::$app->user->isGuest) {
+        /** @var \admin\models\Gallery[] $galleries */
+        $galleries = \admin\models\Gallery::find()->all();
+        $items = [
+                ['label' => 'Список галерей', 'url' => ['/gallery']]
+        ];
+        foreach ($galleries as $gallery) {
+            $items[] = ['label' => $gallery->gallery_name, 'url' => ['/image/index/' . $gallery->id]];
+        }
         $menuItems = [
             ['label' => 'Квартиры', 'url' => ['/apartment']],
             ['label' => 'Комнаты', 'url' => ['/room']],
+            ['label' => 'Параметры', 'url' => ['/parameter']],
+            ['label' => 'Документы', 'url' => ['/document']],
             ['label' => 'Пользователи', 'url' => ['/user']],
-            [ 'label' => 'Контент', 'items' => [
-                ['label' => 'Тексты', 'url' => ['/text']],
-            ]],
+            ['label' => 'Тексты', 'url' => ['/text']],
+            [ 'label' => 'Галереи', 'items' => $items],
             [ 'label' => 'Управление', 'items' => [
                 ['label' => 'Настройки', 'url' => ['/settings']],
                 ['label' => 'Администраторы', 'url' => ['/user-admin']],

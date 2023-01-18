@@ -8,8 +8,8 @@
 
 namespace api\modules\v1\controllers;
 
+use admin\models\Text;
 use yii\filters\auth\HttpBearerAuth;
-use common\models\Text;
 
 class SiteController extends AppController
 {

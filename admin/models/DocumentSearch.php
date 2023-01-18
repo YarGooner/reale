@@ -1,15 +1,15 @@
 <?php
 
-namespace common\models;
+namespace admin\models;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use admin\models\Document;
 
 /**
- * TextSearch represents the model behind the search form of `admin\models\Text`.
+ * DocumentSearch represents the model behind the search form of `admin\models\Document`.
  */
-class TextSearch extends Text
+class DocumentSearch extends Document
 {
     /**
      * {@inheritdoc}
@@ -18,7 +18,7 @@ class TextSearch extends Text
     {
         return [
             [['id'], 'integer'],
-            [['key', 'value'], 'safe'],
+            [['key', 'file'], 'safe'],
         ];
     }
 
@@ -40,7 +40,7 @@ class TextSearch extends Text
      */
     public function search($params)
     {
-        $query = Text::find();
+        $query = Document::find();
 
         // add conditions that should always apply here
 
@@ -62,7 +62,7 @@ class TextSearch extends Text
         ]);
 
         $query->andFilterWhere(['like', 'key', $this->key])
-            ->andFilterWhere(['like', 'value', $this->value]);
+            ->andFilterWhere(['like', 'file', $this->file]);
 
         return $dataProvider;
     }

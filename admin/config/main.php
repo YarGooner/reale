@@ -40,7 +40,7 @@ return [
             'root' => [
                 'baseUrl' => '',
                 'basePath' => '@uploads',
-                'path' => '/htdocs/uploads.',
+                'path' => '/htdocs/uploads',
                 'name' => 'uploads'
             ],
         ],
@@ -187,6 +187,8 @@ return [
             'showScriptName' => false,
             'rules' => [
 //                '/' => 'site/index',
+                'image/index/<gallery_id:\d+>' => 'image/index',
+                'image/create/<gallery_id:\d+>' => 'image/create'
             ],
         ],
     ],

@@ -16,6 +16,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php  //echo $this->render('_search', ['model' => $searchModel]); ?>
 
+    <p>
+        <?= Html::a('Create Text', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -27,13 +30,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ['attribute' => 'group_test'],
             ['attribute' => 'key'],
             AdminWidgetHelper::getEditableItem('value' ),
-//            [
-//                'attribute' => 'value',
-//                'value' => function($data){
-//                    return htmlspecialchars_decode($data->value);
-//                },
-//                'format' => 'html'
-//            ],
+            /*[
+                'attribute' => 'value',
+                'value' => function($data){
+                    return htmlspecialchars_decode($data->value);
+                },
+                'format' => 'html'
+            ],*/
 
             ['class' => 'yii\grid\ActionColumn', 'template' => '{view} {update}'],
         ],

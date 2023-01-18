@@ -13,6 +13,7 @@ class m230117_114526_create_text_table extends Migration
     public function safeUp()
     {
         $this->addColumn('{{%text}}', 'group_test', $this->string());
+        $this->addColumn('{{%text}}', 'text', $this->string());
         $this->addColumn('{{%text}}', 'image', $this->string());
         $this->addColumn('{{%text}}', 'comment', $this->string());
         $this->addColumn('{{%text}}', 'deletable', $this->boolean()->notNull()->defaultValue(1));
@@ -30,6 +31,7 @@ class m230117_114526_create_text_table extends Migration
     public function safeDown()
     {
         $this->dropColumn('{{%text}}', 'group_test');
+        $this->dropColumn('{{%text}}', 'text');
         $this->dropColumn('{{%text}}', 'image');
         $this->dropColumn('{{%text}}', 'comment');
         $this->dropColumn('{{%text}}', 'deletable');

@@ -26,6 +26,7 @@ class Apartment extends \yii\db\ActiveRecord
 {
     public $text;
     public $image;
+    public $addimage;
 
     /**
      * {@inheritdoc}
@@ -47,7 +48,7 @@ class Apartment extends \yii\db\ActiveRecord
             [['floor', 'room', 'TinyInt'], 'integer'],
             [['title', 'subtitle', 'image', 'address', 'addname', 'addimage'], 'string', 'max' => 255],
             ['text', 'trim'],
-            ['image', 'types' => 'jpg, png']
+            [['image'], 'image'],
         ];
     }
 
@@ -58,17 +59,17 @@ class Apartment extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
-            'subtitle' => 'Subtitle',
-            'description' => 'Description',
-            'price' => 'Price',
-            'floor' => 'Floor',
-            'image' => 'Image',
-            'address' => 'Address',
-            'addname' => 'Addname',
-            'room' => 'Room',
-            'addimage' => 'Addimage',
-            'TinyInt' => 'Tiny Int',
+            'title' => 'Заголовок',
+            'subtitle' => 'Подзаголовок',
+            'description' => 'Описание',
+            'price' => 'Цена',
+            'floor' => 'Этаж',
+            'image' => 'Фото',
+            'address' => 'Адрес',
+            'addname' => 'Доп.заголовок',
+            'room' => 'Комнаты',
+            'addimage' => 'Доп.фото',
+            'TinyInt' => 'Флаг доступности по API',
         ];
     }
 
