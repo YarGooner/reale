@@ -16,12 +16,12 @@ class TestController extends AppController
         return array_merge(parent::behaviors(),[
             'authentificator' => [
                 'class' => HttpBearerAuth::className(),
-                'except' => ['text', 'apartments', 'document', 'gallery']
+                'except' => ['text', 'apartment', 'document', 'gallery']
             ],
         ]);
     }
 
-    public function actionApartments(int $id = null)
+    public function actionApartment(int $id = null)
     {
         if ($id) {
             $apartment = Apartment::find()->where(['id' => $id])->one();
@@ -57,7 +57,7 @@ class TestController extends AppController
         }
 
         $gallery = Gallery::find()->all();
-        return $this->returnSuccess([
+        return $this->returnSucces([
             'gallery' => $gallery
         ]);
     }
