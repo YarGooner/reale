@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model admin\models\Parameter */
 
-$this->title = 'Create App Options';
-$this->params['breadcrumbs'][] = ['label' => 'App Options', 'url' => ['index']];
+$this->title = 'Добавление параметра';
+$this->params['breadcrumbs'][] = ['label' => 'Параметры', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="app-options-create">

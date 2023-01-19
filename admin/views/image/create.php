@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $model admin\models\Image */
 /* @var $gallery_id int */
 
-$this->title = 'Create Image';
-$this->params['breadcrumbs'][] = ['label' => 'Images', 'url' => ['image/create/' . $gallery_id]];
+$this->title = 'Добавить изображение';
+$this->params['breadcrumbs'][] = ['label' => 'Изображения', 'url' => ['image/create/' . $gallery_id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="image-create">

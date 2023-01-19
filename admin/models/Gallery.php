@@ -44,11 +44,20 @@ class Gallery extends \yii\db\ActiveRecord
         ];
     }
 
+    public function fields()
+    {
+        return [
+            'id',
+            'gallery_name',
+            'images' => fn() => $this->images
+        ];
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getImages()
     {
-        return $this->hasMany(Image::className(), ['gallery_id' => 'id']);
+        return $this->hasMany(Image::class, ['gallery_id' => 'id']);
     }
 }

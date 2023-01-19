@@ -13,6 +13,8 @@ use Yii;
  */
 class Document extends \yii\db\ActiveRecord
 {
+    public $document;
+
     /**
      * {@inheritdoc}
      */
@@ -29,6 +31,7 @@ class Document extends \yii\db\ActiveRecord
         return [
             [['key', 'file'], 'required'],
             [['key', 'file'], 'string', 'max' => 255],
+            [['document'], 'file'],
         ];
     }
 

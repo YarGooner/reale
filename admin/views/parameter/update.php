@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model admin\models\Parameter */
 
-$this->title = 'Update App Options: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'App Options', 'url' => ['index']];
+$this->title = 'Изменение параметра: ' . $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Параметры', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>

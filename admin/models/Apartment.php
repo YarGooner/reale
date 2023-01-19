@@ -48,7 +48,8 @@ class Apartment extends \yii\db\ActiveRecord
             [['floor', 'room', 'TinyInt'], 'integer'],
             [['title', 'subtitle', 'image', 'address', 'addname', 'addimage'], 'string', 'max' => 255],
             ['text', 'trim'],
-            [['image'], 'image'],
+            //[['image'], 'file'],
+            //[['addimage'], 'file'],
         ];
     }
 
@@ -72,7 +73,18 @@ class Apartment extends \yii\db\ActiveRecord
             'TinyInt' => 'Флаг доступности по API',
         ];
     }
-
+    public function fields()
+    {
+        return [
+            'id',
+            'title',
+            'price',
+            'floor',
+            'image',
+            'address',
+            'rooms' => fn() => $this->rooms
+        ];
+    }
     /**
      * @return \yii\db\ActiveQuery
      */

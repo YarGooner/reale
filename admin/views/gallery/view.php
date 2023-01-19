@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model admin\models\Gallery */
 
 $this->title = $model->gallery_name;
-$this->params['breadcrumbs'][] = ['label' => 'Galleries', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Галереи', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>

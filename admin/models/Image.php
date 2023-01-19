@@ -3,6 +3,7 @@
 namespace admin\models;
 
 use Yii;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "image".
@@ -34,7 +35,7 @@ class Image extends \yii\db\ActiveRecord
             [['gallery_id', 'image'], 'required'],
             [['gallery_id'], 'integer'],
             [['image', 'title', 'text'], 'string', 'max' => 255],
-            [['gallery_id'], 'exist', 'skipOnError' => true, 'targetClass' => Gallery::className(), 'targetAttribute' => ['gallery_id' => 'id']],
+            [['gallery_id'], 'exist', 'skipOnError' => true, 'targetClass' => Gallery::className(), 'targetAttribute' => ['gallery_id' => 'gallery_name']],
         ];
     }
 

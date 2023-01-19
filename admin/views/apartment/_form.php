@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use mihaildev\ckeditor\CKEditor;
 use kartik\file\FileInput;
+use mihaildev\elfinder\InputFile;
 
 /* @var $this yii\web\View */
 /* @var $model admin\models\Apartment */
@@ -33,14 +34,7 @@ use kartik\file\FileInput;
 
     <?php /*= $form->field($model, 'image')->textInput(['maxlength' => true]) */?>
 
-    <?php
-    echo $form->field($model, 'image')->widget(FileInput::class, [
-        'options' => ['accept' => 'image/*'],
-        'pluginOptions' => [
-            'showCaption' => false,
-            'showUpload' => false,
-        ]
-    ]) ?>
+    <?= $form->field($model, 'image')->widget(InputFile::class) ?>
 
     <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
 
@@ -50,14 +44,7 @@ use kartik\file\FileInput;
 
     <?php /*= $form->field($model, 'addimage')->textInput(['maxlength' => true]) */?>
 
-    <?php
-    echo $form->field($model, 'addimage')->widget(FileInput::class, [
-        'options' => ['accept' => 'image/*'],
-        'pluginOptions' => [
-            'showCaption' => false,
-            'showUpload' => false,
-        ]
-    ]) ?>
+    <?= $form->field($model, 'addimage')->widget(InputFile::class) ?>
 
     <?= $form->field($model, 'TinyInt')->checkbox() ?>
 

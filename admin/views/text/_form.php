@@ -3,6 +3,7 @@
 use kartik\file\FileInput;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use mihaildev\elfinder\InputFile;
 
 /* @var $this yii\web\View */
 /* @var $model \admin\models\Text */
@@ -21,14 +22,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'text')->textarea(['rows' => 6]) ?>
 
-    <?php
-    echo $form->field($model, 'image')->widget(FileInput::class, [
-        'options' => ['accept' => 'image/*'],
-        'pluginOptions' => [
-            'showCaption' => false,
-            'showUpload' => false,
-        ]
-    ]) ?>
+    <?= $form->field($model, 'image')->widget(InputFile::class) ?>
 
     <?= $form->field($model, 'comment')->textarea(['rows' => 6]) ?>
 

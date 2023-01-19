@@ -1,5 +1,6 @@
 <?php
 
+use mihaildev\elfinder\InputFile;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\file\FileInput;
@@ -13,18 +14,8 @@ use kartik\file\FileInput;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'gallery_id')->textInput() ?>
+    <?= $form->field($model, 'image')->widget(InputFile::class) ?>
 
-    <?php /*= $form->field($model, 'image')->textInput(['maxlength' => true]) */?>
-
-    <?php
-    echo $form->field($model, 'image')->widget(FileInput::class, [
-        'options' => ['accept' => 'image/*'],
-        'pluginOptions' => [
-            'showCaption' => false,
-            'showUpload' => false,
-        ]
-    ]) ?>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 

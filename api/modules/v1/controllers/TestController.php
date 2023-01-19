@@ -28,9 +28,9 @@ class TestController extends AppController
             return $this->returnSuccess(['apartment' => $apartment]);
         }
 
-        $apartments = Apartment::find()->all();
+        $apartment = Apartment::find()->all();
         return $this->returnSuccess([
-            'apartments' => $apartments
+            'apartments' => $apartment
         ]);
     }
     public function actionText()
@@ -53,12 +53,12 @@ class TestController extends AppController
     {
         if($id) {
             $gallery = Gallery::find()->where(['id' => $id])->one();
-            return $this->returnSucces(['gallery' => $gallery]);
+            return $this->returnSuccess(['gallery' => $gallery]);
         }
 
         $gallery = Gallery::find()->all();
-        return $this->returnSucces([
-            'gallery' => $gallery
+        return $this->returnSuccess([
+            'galleries' => $gallery
         ]);
     }
 }

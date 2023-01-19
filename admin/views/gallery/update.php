@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model admin\models\Gallery */
 
-$this->title = 'Update Gallery: ' . $model->gallery_name;
-$this->params['breadcrumbs'][] = ['label' => 'Galleries', 'url' => ['index']];
+$this->title = 'Редактирование галереи: ' . $model->gallery_name;
+$this->params['breadcrumbs'][] = ['label' => 'Галереи', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->gallery_name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>

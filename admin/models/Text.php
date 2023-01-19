@@ -15,6 +15,7 @@ use yii\db\ActiveRecord;
  */
 class Text extends ActiveRecord
 {
+    public $image;
     /**
      * {@inheritdoc}
      */
@@ -32,6 +33,7 @@ class Text extends ActiveRecord
             [['key', 'value', 'text'], 'required'],
             [['value', 'group_test'], 'string'],
             [['key'], 'string', 'max' => 255],
+            [['image'], 'file']
         ];
     }
 
