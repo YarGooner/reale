@@ -26,7 +26,11 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'apartment_id',
+            \admin\components\widgets\AdminWidgetHelper::getDropdownColumn(
+                'apartment_id',
+                \admin\models\Apartment::find()->select(['title', 'id'])->indexBy('id')->column(),
+                false
+            ),
             'title',
             'area',
             'id_room',

@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use admin\components\widgets\AdminWidgetHelper;
 
 /* @var $this yii\web\View */
 /* @var $searchModel admin\models\ImageSearch */
@@ -27,8 +28,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            //'gallery_id',
+            //'id',
+            AdminWidgetHelper::getDropdownColumn(
+                'gallery_id',
+                \admin\models\Gallery::find()->select(['gallery_name', 'id'])->indexBy('id')->column(),
+                false
+            ),
             'image',
             'title',
             'text',

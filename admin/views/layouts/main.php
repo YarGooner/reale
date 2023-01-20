@@ -54,7 +54,7 @@ AppAsset::register($this);
             ['label' => 'Комнаты', 'url' => ['/room']],
             ['label' => 'Параметры', 'url' => ['/parameter']],
             ['label' => 'Документы', 'url' => ['/document']],
-            ['label' => 'Пользователи', 'url' => ['/user']],
+            //['label' => 'Пользователи', 'url' => ['/user']],
             ['label' => 'Тексты', 'url' => ['/text']],
             [ 'label' => 'Галереи', 'items' => $items],
             [ 'label' => 'Управление', 'items' => [
